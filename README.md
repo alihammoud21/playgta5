@@ -68,6 +68,6 @@ Extract all release archives, install Python 3.11 or newer, and run `python3 ser
 
 This package contains only the original local game mirror, a local server, launch/download/verification scripts, and a minimal Python runtime. It does **not** contain hosting credentials, Netlify/Cloudflare configuration, personal saved games, Ollama, or the unfinished police-mode experiment. The double-nested source mirror folder is normalized to `mirror/playgta5.com` without changing its contents.
 
-The starting launcher project came from [shadany7824/playgta5](https://github.com/shadany7824/playgta5). That project's README credits the snapshot collection to **Sebas Furbastian / @SebasKitten**. This package is not affiliated with or endorsed by Rockstar Games, Take-Two, or that project's authors.
+This package is not affiliated with or endorsed by Rockstar Games, Take-Two, or that project's authors.
 
 Game names, artwork, audio, and other game assets remain the property of their respective rights holders. No ownership or redistribution license for those assets is claimed here. Availability is subject to rights-holder requests and GitHub's policies. The bundled Python runtime retains its license in `runtime/LICENSE.txt`.
