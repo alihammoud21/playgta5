@@ -1,4 +1,4 @@
-# PlayGTA5 — local browser game
+# PlayGTA5 local browser game
 
 Download the complete browser-game snapshot, including **all 12,482 files in the `mirror` folder**. This is a compiled client snapshot, not the original game-engine source code.
 
