@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Download, install, and troubleshoot the PlayGTA5 local browser snapshot on Windows and Mac.">
+<title>PlayGTA5 · Downloads & help</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f3f1eb;color:#182621;font:17px/1.65 system-ui,sans-serif}main{max-width:1040px;margin:auto;padding:36px 28px 80px}header{border-bottom:1px solid #c9d1c8;padding-bottom:20px;display:flex;justify-content:space-between;gap:20px}a{color:#15563b;text-underline-offset:4px}h1{font-size:clamp(42px,7vw,76px);line-height:1.04;letter-spacing:-.055em;max-width:850px;margin:65px 0 24px}h2{font-size:27px;letter-spacing:-.025em}p{max-width:750px}.label{font-size:13px;letter-spacing:.1em;text-transform:uppercase}.button{display:inline-block;background:#164b38;color:white;border-radius:5px;padding:13px 22px;text-decoration:none;margin:14px 15px 20px 0}.columns{display:grid;grid-template-columns:1fr 1fr;gap:50px;margin:40px 0}section{border-top:1px solid #c9d1c8;padding:22px 0}li{margin:12px 0}pre{padding:18px;background:#e5e9e1;white-space:pre-wrap;overflow-wrap:anywhere;font-size:14px}code{overflow-wrap:anywhere}footer{font-size:14px;color:#526257;margin-top:38px}@media(max-width:650px){.columns{grid-template-columns:1fr;gap:20px}h1{margin-top:42px}header{font-size:14px}}
+</style>
+<main>
+<header><strong>PLAYGTA5</strong><a href="https://github.com/alihammoud21/playgta5">Repository & support ↗</a></header>
+<h1>Your browser.<br>Your machine.<br>Start here.</h1>
+<p>The local browser-game snapshot, with download instructions and help for Windows and Mac. The complete game data is about <strong>21.2 GB</strong>; allow at least <strong>25 GB of free space</strong>.</p>
+<p><strong>This is the download and support site.</strong> Gameplay runs on your computer after installation. The game is not hosted on this Vercel page.</p>
+<a class="button" href="https://github.com/alihammoud21/playgta5/archive/refs/heads/main.zip">Download installer scripts</a>
+<a href="https://github.com/alihammoud21/playgta5/releases/tag/full-game-v1">Manual game downloads ↗</a>
+<div class="columns">
+<section><p class="label">01 / Windows</p><h2>Download. Launch. Play.</h2><ol><li>Extract the installer ZIP completely.</li><li>Run <strong>Download-Game.cmd</strong>. Keep the window open until installation finishes.</li><li>Run <strong>Launch-Local.cmd</strong>. Keep its server window open.</li><li>Open the local compatibility page in Chrome or Edge and start with the lower-memory option.</li></ol></section>
+<section><p class="label">02 / Mac · Experimental gameplay</p><h2>A native launch path.</h2><ol><li>Install <a href="https://www.python.org/downloads/macos/">Python 3.11 or newer</a> and extract the installer ZIP.</li><li>Open Terminal in the extracted folder, then run:</li></ol><pre>bash Download-Game.command
+bash Launch-Local.command</pre><p>Use current Chrome or Edge. Apple Silicon and Intel use the system Python; the Windows runtime is skipped. Mac gameplay still needs hardware testing.</p></section>
+</div>
+<section><p class="label">03 / Troubleshooting</p><h2>Sound and map, but a black world?</h2><p>After starting the local server, try <a href="http://localhost:8000/?low=1&amp;fps=30&amp;res=1280x720">lower-memory mode at 720p / 30 FPS</a>. Close other game tabs and GPU-heavy apps. Verify the game files, then collect browser-console errors if it persists.</p><p><a href="https://github.com/alihammoud21/playgta5/issues/2">Black-screen support thread ↗</a> &nbsp; <a href="https://github.com/alihammoud21/playgta5/issues/1">Graphics-device-lost support thread ↗</a></p><p>In the updated installer, the <a href="http://localhost:8000/__support/">local compatibility page</a> produces a report you can review and share. Local links work only while your server is running.</p></section>
+<section><h2>Already installed?</h2><p>Keep your existing game files. Download the latest installer ZIP and copy its helper files and <code>support</code> folder into your existing installation, replacing the older helpers. Then run the launcher. Do not re-extract the old release helpers over the update.</p><p>The original release archives remain unchanged. <a href="https://github.com/alihammoud21/playgta5#readme">Read the full installation and troubleshooting guide ↗</a>.</p></section>
+<footer>This is a compiled client snapshot, not the original engine source. Not affiliated with Rockstar Games or Take-Two. Game assets belong to their respective rights holders.</footer>
+</main></html>

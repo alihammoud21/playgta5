@@ -1,2 +1,7 @@
-# Keep installer checksums identical in ZIP downloads and Windows Git clones.
+# Preserve release metadata and Windows helpers byte-for-byte.
 * -text
+*.sh text eol=lf
+*.command text eol=lf
+*.py text eol=lf
+*.html text eol=lf
+*.js text eol=lf

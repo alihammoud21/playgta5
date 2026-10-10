@@ -1,0 +1,7 @@
+mirror/
+runtime/
+.downloads/
+.installed-parts/
+__pycache__/
+tests/
+*.log

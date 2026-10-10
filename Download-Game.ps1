@@ -10,14 +10,15 @@ New-Item -ItemType Directory -Force -Path $downloadRoot,$receiptRoot | Out-Null
 $manifest = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'download-manifest.json') -Raw | ConvertFrom-Json
 $inventory = Get-Content -LiteralPath (Join-Path $PSScriptRoot 'file-inventory.json') -Raw | ConvertFrom-Json
 $installPrefix = $installRoot.TrimEnd('\') + '\'
-$remaining = ($inventory.files | Where-Object { -not (Test-Path -LiteralPath (Join-Path $installRoot $_.path)) } | Measure-Object bytes -Sum).Sum
+$payloadFiles = @($inventory.files | Where-Object { $_.path.StartsWith('mirror/') -or $_.path.StartsWith('runtime/') })
+$remaining = ($payloadFiles | Where-Object { -not (Test-Path -LiteralPath (Join-Path $installRoot $_.path)) } | Measure-Object bytes -Sum).Sum
 $drive = [IO.DriveInfo]::new([IO.Path]::GetPathRoot($installRoot))
 if ($drive.AvailableFreeSpace -lt ($remaining + 2GB)) { throw 'Not enough free space. Use a drive with at least 25 GB available for a new installation.' }
 Write-Host 'Downloading the complete local browser game. All archives are required.'
 Write-Host ('Destination: ' + $installRoot)
 foreach ($part in $manifest.parts) {
     $receipt = Join-Path $receiptRoot ($part.name + '.sha256')
-    $entries = @($inventory.files | Where-Object part -eq $part.name)
+    $entries = @($payloadFiles | Where-Object part -eq $part.name)
     $entryMap = @{}
     foreach ($record in $entries) { $entryMap[$record.path] = $record }
     $complete = (Test-Path -LiteralPath $receipt) -and ((Get-Content -LiteralPath $receipt -Raw).Trim() -eq $part.sha256)
@@ -42,6 +43,8 @@ foreach ($part in $manifest.parts) {
     $zip = [IO.Compression.ZipFile]::OpenRead($archive)
     try {
         foreach ($entry in $zip.Entries) {
+            # Keep the current repository's helpers; release helpers are an older version.
+            if (-not ($entry.FullName.StartsWith('mirror/') -or $entry.FullName.StartsWith('runtime/'))) { continue }
             $target = [IO.Path]::GetFullPath((Join-Path $installRoot $entry.FullName))
             if (-not $target.StartsWith($installPrefix,[StringComparison]::OrdinalIgnoreCase)) { throw 'Unsafe archive path rejected.' }
             $record = $entryMap[$entry.FullName]
@@ -69,5 +72,19 @@ if ([IO.Path]::GetFullPath($sourceInventory) -ne [IO.Path]::GetFullPath($targetI
     if (Test-Path -LiteralPath $targetInventory) {
         if ((Get-FileHash -LiteralPath $sourceInventory).Hash -ne (Get-FileHash -LiteralPath $targetInventory).Hash) { throw 'Existing file-inventory.json differs; no file was overwritten.' }
     } else { Copy-Item -LiteralPath $sourceInventory -Destination $targetInventory }
+}
+# A separate -Destination also needs the current helpers, never legacy ZIP copies.
+if ([IO.Path]::GetFullPath($PSScriptRoot).TrimEnd('\') -ne $installRoot.TrimEnd('\')) {
+    $helperNames = @('Launch-Local.cmd','Start-Local.ps1','serve_local.py','Verify-Game.cmd','verify_game.py','README.md','Download-Game.cmd','Download-Game.ps1','download-manifest.json','support/index.html','support/check.js')
+    foreach ($name in $helperNames) {
+        $sourceHelper = Join-Path $PSScriptRoot $name
+        $targetHelper = Join-Path $installRoot $name
+        if (Test-Path -LiteralPath $targetHelper) {
+            if ((Get-FileHash -LiteralPath $sourceHelper).Hash -ne (Get-FileHash -LiteralPath $targetHelper).Hash) { throw ('Existing helper differs; no file was overwritten: ' + $targetHelper + '. Copy the latest helpers into this installation manually.') }
+        } else {
+            New-Item -ItemType Directory -Force -Path ([IO.Path]::GetDirectoryName($targetHelper)) | Out-Null
+            Copy-Item -LiteralPath $sourceHelper -Destination $targetHelper
+        }
+    }
 }
 Write-Host 'Download complete. Double-click Launch-Local.cmd to play.' -ForegroundColor Green

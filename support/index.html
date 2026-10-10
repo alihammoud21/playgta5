@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PlayGTA5 · Local compatibility check</title>
+<style>
+body{font:17px/1.6 system-ui,sans-serif;background:#f3f1eb;color:#182621;margin:0}main{max-width:850px;margin:6vh auto;padding:28px}h1{font-size:clamp(32px,5vw,52px);line-height:1.1;letter-spacing:-.04em}a{color:#15563b}nav{display:flex;flex-wrap:wrap;gap:12px;margin:28px 0}.button,button{background:#164b38;color:white;border:0;border-radius:6px;padding:12px 18px;font:inherit;text-decoration:none;cursor:pointer}pre{background:white;border:1px solid #d2d8d1;padding:20px;white-space:pre-wrap;overflow-wrap:anywhere;font:14px/1.5 ui-monospace,monospace}.label{font-size:13px;letter-spacing:.13em;text-transform:uppercase}details{margin:24px 0}code{overflow-wrap:anywhere}
+</style>
+<main>
+<p class="label">PlayGTA5 / Local server</p>
+<h1>Check your browser.<br>Then start playing.</h1>
+<p id="status" role="status">Checking WebGPU, shared memory, and local file serving…</p>
+<p>This checks startup capabilities, not successful gameplay. Mac gameplay is experimental. Use current Chrome or Edge with graphics acceleration enabled.</p>
+<nav><a class="button" href="/?low=1&amp;fps=30&amp;res=1280x720">Start with lower memory · 720p / 30 FPS</a><a href="/">Start with original settings</a></nav>
+<pre id="report">Checking…</pre>
+<button id="copy" type="button">Copy diagnostics</button>
+<details open><summary>Black world, working audio or map</summary>
+<p>Close the game tab and try the lower-memory link above. Compare Story and Sandbox modes. If the world stays black, open browser developer tools (F12 on Windows; ⌥⌘I on Mac), capture the first WebGPU / shader errors, and attach them with these diagnostics to <a href="https://github.com/alihammoud21/playgta5/issues/2">issue #2</a>. A working menu does not prove that world shaders or all game files loaded.</p></details>
+<details><summary>Graphics device lost or loading stuck</summary>
+<p>Close every game tab, stop this server with Ctrl+C, and launch again. Update the browser and graphics driver (macOS updates supply Mac drivers). Check <code>chrome://gpu</code> or <code>edge://gpu</code> for hardware acceleration and Problems Detected. Close GPU-heavy apps. Post the first error and diagnostics to <a href="https://github.com/alihammoud21/playgta5/issues/1">issue #1</a>.</p></details>
+<p>If files fail to load, run Verify-Game.cmd (Windows) or Verify-Game.command (Mac). This page makes no changes to saves or browser storage. Review copied diagnostics before posting; they include browser and GPU information.</p>
+<noscript>JavaScript is required for compatibility checks and gameplay.</noscript>
+</main><script src="/__support/check.js"></script>
+</html>
