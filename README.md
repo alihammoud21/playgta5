@@ -73,9 +73,13 @@ On Linux, use Python 3.11+ with `python3 download_game.py`, then `python3 serve_
 
 ## Vercel and online hosting
 
-[playgta5-tawny.vercel.app](https://playgta5-tawny.vercel.app/) is the **download and support page**, not a hosted game session. The repository's `vercel.json` serves `public/` with no build or install command; use the repository root as Vercel's Root Directory and the **Other** framework preset. The previous Git import returned 404 because there was no homepage in the deployment output.
+[Play online at playgta5-tawny.vercel.app](https://playgta5-tawny.vercel.app/) in current Chrome or Edge with graphics acceleration enabled. The game runs in your browser and loads assets from the deployment as needed. No Python installation or local server is needed for the online version. The first load can take several minutes. Hosted defaults are lower-memory, 720p, and 30 FPS; explicit `low`, `res`, and `fps` query parameters override them.
 
-The complete playable game cannot be deployed by simply importing this repo: its roughly 21 GB of data lives in GitHub Releases, and gameplay needs byte-range responses, COOP/COEP isolation headers, and the `/data/batch` POST protocol implemented by `serve_local.py`. Vercel's [CLI upload limits](https://vercel.com/docs/limits#static-file-uploads) and [function payload limits](https://vercel.com/docs/functions/limitations) also make a direct upload/serverless conversion unsuitable for this package. A hosted playable version needs separately provisioned asset storage and a compatible backend; that is not provided by this static page.
+`vercel.json` builds with `python3 build_web.py` and publishes `web-output/`. Use the repository root and **Other** framework preset. The build downloads one release archive at a time, verifies archive and extracted-file SHA-256 checksums, and extracts game assets only. It replaces the I/O worker's batch-prefetch call with static range reads, so no Python server or serverless batch endpoint is required. COOP/COEP isolation headers enable the shared-memory game workers. Download/help instructions are preserved at [/help/](https://playgta5-tawny.vercel.app/help/).
+
+The deployment contains about 21 GB of assets; builds require substantial disk space and bandwidth. This uses Vercel's build output, not a 21 GB CLI source upload. [Vercel resource limits](https://vercel.com/docs/limits) and your plan's traffic allowance still apply. Runtime performance and graphics compatibility depend on the visitor's device; successful deployment does not certify every GPU or Mac.
+
+For a local deployment build, run `python3 build_web.py --source /path/to/playgta5.com`. The source is fully verified and is not patched in place. Generated output is ignored by Git; original release archives and the local launcher remain unchanged.
 
 ## Troubleshooting
 

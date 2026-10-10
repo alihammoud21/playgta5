@@ -4,3 +4,5 @@ runtime/
 .installed-parts/
 __pycache__/
 *.log
+web-output/
+game-build-*/

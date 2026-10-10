@@ -5,3 +5,5 @@ runtime/
 __pycache__/
 tests/
 *.log
+web-output/
+game-build-*/
