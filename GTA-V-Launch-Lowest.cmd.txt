@@ -1,0 +1,16 @@
+@echo off
+setlocal
+cd /d "%~dp0"
+if not exist "runtime\python.exe" (
+    echo Bundled runtime is missing. Extract the entire ZIP before launching.
+    pause
+    exit /b 1
+)
+rem Lowest settings: the engine's own low-memory profile (?low=1: textures, shadows, reflections,
+rem particles, grass, city density, LOD and variety all at minimum), 720p, 30 fps cap.
+rem Runs on port 8001 so it can run alongside the Max launcher (port 8000).
+set "URL=http://localhost:8001/?low=1&fps=30&res=1280x720"
+start "GTA V Web - Lowest (port 8001)" "runtime\python.exe" "serve_local.py" --host 127.0.0.1 --port 8001
+timeout /t 1 /nobreak >nul
+start "" "%URL%"
+endlocal
