@@ -14,9 +14,22 @@ mimetypes.add_type('application/wasm', '.wasm')
 mimetypes.add_type('text/javascript', '.js')
 
 def improve_game_page(code):
-    """Improve support text at serving/build time, preserving verified release files."""
+    """Improve the launcher at serving/build time, preserving verified release files."""
     if 'game-progress' not in code:
         return code
+    query = 'const q = new URLSearchParams(location.search);'
+    code = code.replace(query, query + '''
+// Avoid native Retina render targets and excessive worker/scene load on Macs.
+// iPads can report MacIntel; they must still follow the mobile capability checks.
+if (/Mac/.test(navigator.platform) && !(navigator.maxTouchPoints > 1)) {
+    for (const [key, value] of Object.entries({low:'1', fps:'60', res:'1280x720', shadows:'0'})) {
+        if (!q.has(key) && !(key === 'res' && q.has('scale'))) q.set(key, value);
+    }
+}
+''', 1)
+    # The upstream 1 ms tick works around Windows timer rounding, not macOS.
+    code = code.replace('setInterval(() => {}, 1);',
+                        "if (/^Win/.test(navigator.platform)) setInterval(() => {}, 1);", 1)
     if 'name="viewport"' not in code:
         code = code.replace('<head>', '<head><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">', 1)
     # Mobile taps must not call an absent pointer-lock API. Relative camera input

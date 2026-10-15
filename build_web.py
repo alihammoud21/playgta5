@@ -24,7 +24,7 @@ def patch_worker(code):
 
 def patch_page(code):
     old = 'const q = new URLSearchParams(location.search);'
-    new = old + "\n// Conservative hosted defaults; explicit URL settings still take precedence.\nfor (const [key, value] of Object.entries({low:'1', fps:'30', res:'1280x720'})) { if (!q.has(key)) q.set(key, value); }"
+    new = old + "\n// Conservative hosted defaults; explicit URL settings still take precedence.\nfor (const [key, value] of Object.entries({low:'1', fps:'30', res:'1280x720'})) { if (!q.has(key) && !(key === 'res' && q.has('scale'))) q.set(key, value); }"
     if code.count(old) != 1:
         raise ValueError('Unrecognized game page: expected exactly one query parser')
     return improve_game_page(code.replace(old, new))
