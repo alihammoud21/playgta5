@@ -28,3 +28,11 @@ No binary patches suppress these failures. Useful next evidence: exact launcher/
 ## Mobile and performance
 
 The support website is responsive. The engine still requires WebGPU, memory64, shared memory and sufficient device resources; experimental touch controls are implemented, with automated multi-touch/input-release tests but no phone gameplay validation. A phone displaying the launcher is not gameplay validation. Profiles change real existing engine settings, but no universal FPS increase is promised.
+
+### MacBook Air performance profiles
+
+The local server and static build apply Mac defaults of 1280×720, a 60 FPS cap, light graphics and shadows off. This avoids allocating native Retina-size render targets and uses the engine's existing low-memory worker and scene settings. Explicit URL options take precedence; an explicit `scale` also prevents the default `res` from masking it. The Windows 1 ms timer workaround now runs only on Windows. These changes do not rewrite the compiled engine or reserve additional RAM.
+
+The support page offers a 1600×900 / 30 FPS light profile for a sharper image at a lower frame-rate target. If that is too demanding, use 1280×720 / 30 FPS. Switching is manual and reloads the game; save first. These profiles are not automatic performance detection and are not validated sustained 30/60 FPS claims.
+
+For an M3 Air with 16 GB, compare the same loaded scene and driving route at 720p / 60 and 900p / 30, using one game tab and the same browser. Allow shader compilation and asset loading to settle, then observe several minutes of frame times, not only an average FPS counter. Record memory pressure and swap growth in Activity Monitor alongside browser/GPU use. macOS and other apps share the available memory; 16 GB alone neither proves sufficient headroom nor explains engine faults. Loading stalls, shader compilation and engine defects can still cause stutter at either cap. Sustained gameplay measurements remain pending.
